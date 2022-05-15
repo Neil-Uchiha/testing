@@ -1,0 +1,90 @@
+
+# https://www.notion.so/techsellence/29a8dc7007b841b08722190c5460bfa4?v=cae06adcb94444bbb95f5652fa75bc83 -> User Table
+# https://www.notion.so/techsellence/796fad588f374d76b69f31fa1a3f03f4?v=ad9d404ed55a4d4cbdd89f7c31311b89 -> Workflow Table
+# https://www.notion.so/techsellence/53a77d60b4d24437b34fa7e7c494c5da?v=a96d8e4886474957b86939a76c8d1706 -> Workflow Definition
+# https://www.notion.so/techsellence/f6fe93e4dbbb4367b086e62c3baed2b9?v=33204c73c8084a14bcd68c36b6b87a8f -> Order Table
+# https://www.notion.so/techsellence/8027671d890c444e879e5734a5366f32?v=f61e6328f50a467e9d509b19cfc33cb7 -> Order Task Table
+
+# Workflow-table (1) →  Workflow-Definition-Table ( many )
+# Workflow-table(1)  →  Order-Table (many)
+# order-Table (1)    →  Order-Task-Table (many)
+
+type User @model @auth(rules: [{allow: public}]) {
+  email: String! @primaryKey
+  name: String!
+  isAdmin: Boolean!
+  phone: AWSPhone!
+  superwiserEmail: String! @index(name: "bySuperwisedrID", queryField: "userBySuperWisedID")
+  isApproved: Boolean!
+  isEmailApproved: Boolean!
+  isPhoneVerified: Boolean!
+  isGooleSignIn: Boolean!
+  isFacebookSignIn: Boolean!
+  isGeneralAuthSignIn: Boolean!
+  orders: [Order] @manyToMany(relationName: "UserOrderMapping")
+  notifications:[UserNotifications] @hasMany
+}
+
+type Order @model @auth(rules: [{allow: public}]) {
+  orderID: String! @primaryKey
+  description: String!
+  currentStatus: CurrentStatusEnum!
+  currentData: String!
+  currentTime: String!
+  createdDate: String!
+  WorkFlowJSON:AWSJSON!
+  tasks: [OrderTask] @hasMany
+  users: [User] @manyToMany(relationName: "UserOrderMapping")
+  relatedWorkFlow:Workflow @belongsTo
+}
+enum CurrentStatusEnum {
+  ORDER_CREATED 
+  ORDER_IN_PROGRESS 
+  ORDER_CANCELLED
+  ORDER_COMPLETED 
+}
+type OrderTask @model @auth(rules: [{allow: public}]) {
+  TaskID: String! @primaryKey
+  taskStatus: TaskStatusEnum!
+  NodeID: String!
+  NextNodeName: [String!]!
+  TaskAssignedTo: String!
+  isFirstUser: Boolean!
+  TaskDescription: String!
+  UserFilePathList: [String!]!
+  AssignedTimeStamp: String!
+  TaskCompletionTime: String!
+  DueDate: AWSDate!
+}
+enum TaskStatusEnum {
+  TASK_FORWARD
+  TASK_CANCELLED
+  TASK_COMPLETED
+  TASK_IN_PROGRESS 
+  TASK_TO_START
+}
+
+type Workflow @model @auth(rules: [{allow: public}]) {
+  workflowName: String! @primaryKey
+  workflowOrders: [Order] @hasMany
+  workflowdefinitions:[WorkflowDefinition] @hasMany
+  WorkFlowJSON:AWSJSON!
+  WorkFlowDescription:String!
+  CreatedBy: String!
+  OwnedBy: String!
+}
+
+type WorkflowDefinition @model @auth(rules: [{allow: public}]) {
+  workflowdefinitionid:String!
+  NodeName: String!  @index(name: "byNodeName", sortKeyFields: ["WorkFlowName"], queryField: "nodeByNodeandWorkFlowName")
+  NextNodeName: [String!]!
+  Description: String!
+  WorkFlowName:String!
+}
+
+type UserNotifications @model @auth(rules: [{ allow: public }]){
+  connectedUser:User @belongsTo
+  NotificationStatus:String!
+  NotificationContent:String!
+  NotifyTime:String!
+}
