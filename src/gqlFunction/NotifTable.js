@@ -1,7 +1,14 @@
 import { API } from 'aws-amplify';
-import * as mutations from '../graphql/mutations'
+import * as mutations from '../graphql/mutations';
 import * as queries from '../graphql/queries';
 export const createNewNotif = async (notifDetails) => {
+    try{
+        if(notifDetails.userNotificationsId=="" && notifDetails.NotificationStatus=="" && notifDetails.NotificationContent=="" && notifDetails.NotifyTime==""){
+            throw new Error("null value not allowed")
+        }
+    }catch{
+
+    }
     try {
         const addNotif = await API.graphql({ query: mutations.createUserNotifications, variables: { input: notifDetails } })
         console.log("Notif has been added", addNotif.data.createUserNotifications);

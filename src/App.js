@@ -4,12 +4,12 @@ import UserTable from './gqlFunction/UserTable';
 import { createNewUser, getUserByEmail,getUserBySupMail, deleteUserByMail, deleteUserBySupMail, updateUserInfo } from './gqlFunction/UserTable';
 import WorkflowTable, { createNewNotif } from './gqlFunction/NotifTable';
 import { createNewWorkflow,updateNotif,deleteNotifByMail } from './gqlFunction/NotifTable';
-
+import {emailValidation,phoneValidation} from './InputTest';
 function App() {
   const createNotifData = {
     userNotificationsId:"xyz@gmail.com",
     NotificationStatus:'abc',
-    NotificationContent:'String',
+    NotificationContent:'',
     NotifyTime:'String'
   };
 
@@ -24,7 +24,7 @@ function App() {
     id:"3e2f5dbe-8f8d-4cb7-86b9-67356fed7da3",
     _version: "1"
   }
-  /*const createUserData = {
+  const createUserData = {
     email: "nifaz@gmail.com",
     name: "Nifaz",
     isAdmin: false,
@@ -48,28 +48,36 @@ function App() {
     _version: "1"
   }
   const deleteSuperMail = {
+    email: "namrata@gmail.com",
     superwiserEmail: "gourab@gmail.com",
     _version: "1"
   }
+
   const updateTheUser = {
     email: "xyz@gmail.com",
     name: "anuj",
     isAdmin: true,
     _version: "9"
-  }*/
+  }
 
+  const testEmail = {
+    email: ""
+  }
   return (
     <div className="App">
-      {/* <button onClick={() => createNewUser(createUserData)}>Create new user</button><br/><br/>
+      <button onClick={() => createNewUser(createUserData)}>Create new user</button><br/><br/>
       <button onClick={() => getUserByEmail(getDataViaMail.email)}>Get user by email</button><br/><br/>
       <button onClick={() => getUserBySupMail(getDataViaSuper.superwiserEmail)}>Get user by supermail</button><br/><br/>
       <button onClick={() => deleteUserByMail(deleteEmail)}>Delete by email</button><br/><br/>
       <button onClick={() => deleteUserBySupMail(deleteSuperMail.superwiserEmail)}>Delete by supermail</button><br/><br/>
       
-      <button onClick={() => updateUserInfo(updateTheUser)}>Update User</button><br/><br/> */}
+      <button onClick={() => updateUserInfo(updateTheUser)}>Update User</button><br/><br/>
       <button onClick={() => createNewNotif(createNotifData)}>Create new notif</button><br/><br/>
       <button onClick={() => updateNotif(updateNotifData)}>Update notif </button><br/><br/>
       <button onClick={() => deleteNotifByMail(deleteNotif)}>Delete notif </button><br/><br/>
+
+      <button onClick={() => emailValidation(testEmail.email)}>test mail </button><br/><br/>
+      <button onClick={() => phoneValidation(createUserData.phone)}>test number </button><br/><br/>
 
 
     </div>
@@ -77,7 +85,3 @@ function App() {
 }
 
 export default App;
-
-
-//  const[mail, setMail] = useState(null)
-//  const callingFunction = userByEmail(mail)
