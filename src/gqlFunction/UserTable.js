@@ -2,11 +2,17 @@
 import { API } from 'aws-amplify';
 import * as mutations from '../graphql/mutations'
 import * as queries from '../graphql/queries';
+import {emailValidation,phoneValidation} from '../InputTest';
 
 // email, name, isAdmin, phone, superviserEmail, isApproved, isEmailApproved, isPhoneVerified, isGooleSignIn,isFacebookSignIn ,isGeneralAuthSignIn
 
 // create instance of userDetails in App.js
  export const createNewUser = async (userDetails) => {
+    if(userDetails.email=="" || userDetails.name=="" || typeof userDetails.isAdmin!= "boolean" || userDetails.phone=="" || userDetails.superwiserEmail=="" || typeof userDetails.isApproved!="boolean" || typeof userDetails.isEmailApproved!="boolean" || typeof userDetails.isPhoneVerified!="boolean" || typeof userDetails.isGooleSignIn!="boolean" || typeof userDetails.isFacebookSignIn!="boolean" || typeof userDetails.isGeneralAuthSignIn!="boolean"){
+        throw new Error("null value not allowed")
+        }
+    emailValidation(userDetails.email)
+    phoneValidation(userDetails.phone)
      try {
          const addUser = await API.graphql({ query: mutations.createUser, variables: { input: userDetails } })
          console.log("User has been added", addUser.data.createUser);
@@ -17,6 +23,7 @@ import * as queries from '../graphql/queries';
 
 //create instance of Mail in App.js
 export const deleteUserByMail = async (Mail) => {
+    emailValidation(Mail.email)
     try {
         const deletedUser = await API.graphql({ query: mutations.deleteUser, variables: {input: Mail} })
         console.log("Deleted User is ", deletedUser.data.deleteUser);
@@ -27,6 +34,8 @@ export const deleteUserByMail = async (Mail) => {
 
 //create instance of supEmail in App.js
 export const deleteUserBySupMail = async (userSupEmail) => {
+    emailValidation(userSupEmail.superwiserEmail)
+
     try {
         const userSupData = await API.graphql({ query: queries.userBySuperWisedID, variables: {superwiserEmail: userSupEmail } });
         console.log("User details by supervisor email", userSupData.data.userBySuperWisedID)
@@ -54,6 +63,8 @@ export const deleteUserBySupMail = async (userSupEmail) => {
 
 
 export const getUserByEmail = async(userEmail) => {
+    emailValidation(userEmail)
+
     try {
             const userData = await API.graphql({ query: queries.getUser, variables: {email: userEmail }});
             const x = userData.data.getUser;
@@ -67,6 +78,8 @@ export const getUserByEmail = async(userEmail) => {
 
 // create instance of userSupEmail in App.js
       export const getUserBySupMail = async (userSupEmail) => {
+        emailValidation(userSupEmail)
+
           try {
               const userSupData = await API.graphql({ query: queries.userBySuperWisedID, variables: {superwiserEmail: userSupEmail } });
               console.log("User details by supervisor email", userSupData.data.userBySuperWisedID)
@@ -78,6 +91,7 @@ export const getUserByEmail = async(userEmail) => {
 
 // create instance of updatedData in App.js
      export  const updateUserInfo = async(user)=>{
+        emailValidation(user.email)
       try {
         console.log("Get user to update ")
           const getUpdateUser = await API.graphql({query:queries.getUser, variables:{email: user.email}})
@@ -88,5 +102,6 @@ export const getUserByEmail = async(userEmail) => {
           console.log("Error in updating ",error);
       }
   }
+
 
 

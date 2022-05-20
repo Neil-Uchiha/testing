@@ -12,14 +12,14 @@ function App() {
   const createNotifData = {
     userNotificationsId:"xyz@gmail.com",
     NotificationStatus:'abc',
-    NotificationContent:'',
+    NotificationContent:'hdzhzd',
     NotifyTime:'String'
   };
 
   const updateNotifData={
     NotificationStatus:'avail',
     id:"b9998afd-1850-4101-83c3-1ecb251f2330",
-    userNotificationsId:"b9998afd-1850-4101-83c3-1ecb251f2330",
+   
     _version:"1"
   }
 
@@ -28,7 +28,7 @@ function App() {
     _version: "1"
   }
   const createUserData = {
-    email: "nifaz@gmail.com",
+    email: "xyzyz@gmail.com",
     name: "Nifaz",
     isAdmin: false,
     phone: "8888888888",
@@ -41,13 +41,13 @@ function App() {
     isGeneralAuthSignIn: false
   };
   const getDataViaMail = {
-    email: "abcd@gmail.com"
+    email: "xbcd@gmail.com"
   }
   const getDataViaSuper = {
     superwiserEmail: "gourab@gmail.com"
   }
   const deleteEmail = {
-    email: "neil@gmail.com",
+    email: "niaz@gmail.com",
     _version: "1"
   }
   const deleteSuperMail = {
@@ -64,7 +64,7 @@ function App() {
   }
 
   const testEmail = {
-    email: ""
+    email: "gshlga@gmail.com"
   }
 
   const createTaskData = {
@@ -103,7 +103,7 @@ function App() {
   }
 
   const createOrderData = {
-  orderID: 'sjfaab',
+  orderID: 'sjfGSzhaab',
   description: 'is fine',
   currentStatus: 'ORDER_CREATED',
   currentData: 'String!',
